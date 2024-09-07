@@ -92,54 +92,54 @@ def blink_player():
 def check_collision():
     global health
     for obstacle in obstacles:
-        if player.distance(obstacle) < 20:  # If collision occurs
+        if player.distance(obstacle) < 20: 
             health -= 1
             update_health_display()
-            blink_player()  # Trigger the blink effect when damaged
+            blink_player()  
             reset_obstacle(obstacle)
             if health <= 0:
                 return False
     return True
 
-# Reset an obstacle to the top with a new random shape and position
+
 def reset_obstacle(obstacle):
-    obstacle.shape(random.choice(shapes))  # Random shape
-    obstacle.color(random.choice(["red", "blue", "yellow"]))  # Random color
+    obstacle.shape(random.choice(shapes))  
+    obstacle.color(random.choice(["red", "blue", "yellow"]))  
     obstacle.goto(random.randint(-280, 280), 280)
 
-# Move obstacles downward smoothly
+
 def move_obstacles():
     for obstacle in obstacles:
         y = obstacle.ycor()
-        y -= random.uniform(2, 4)  # Move the obstacle down at a random speed
+        y -= random.uniform(2, 4)  
         obstacle.sety(y)
-        if y < -300:  # If the obstacle goes off-screen, reset it
+        if y < -300: 
             reset_obstacle(obstacle)
 
-# Update timer display
+
 def update_timer_display():
     timer_display.clear()
     timer_display.write(f"Time: {time_left}s", align="right", font=("Arial", 16, "normal"))
 
-# Main game loop
+
 game_running = True
 last_time = time.time()
 
-update_timer_display()  # Initial timer display
+update_timer_display() 
 
 while health > 0 and time_left > 0 and game_running:
-    screen.update()  # Manually update the screen for smoother animations
+    screen.update()  
     move_obstacles()
     game_running = check_collision()
 
     # Timer countdown
     current_time = time.time()
-    if current_time - last_time >= 1:  # Reduce time by 1 every second
+    if current_time - last_time >= 1:  
         time_left -= 1
         update_timer_display()
         last_time = current_time
 
-    time.sleep(0.02)  # Adjust the delay to control the speed of the game
+    time.sleep(0.02)  
 
 # Game over screen
 player.goto(0, 0)
